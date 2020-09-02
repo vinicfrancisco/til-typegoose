@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { getModelForClass } from '@typegoose/typegoose';
+import { v4 as uuidv4 } from 'uuid';
 
 import GroupSchema from '../schemas/Group';
 
@@ -16,6 +17,7 @@ class GroupController {
     const { name } = request.body;
 
     const group = await Group.create({
+      _id: uuidv4(),
       name,
     });
 

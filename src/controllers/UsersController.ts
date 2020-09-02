@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { v4 as uuidv4 } from 'uuid';
 import { getModelForClass } from '@typegoose/typegoose';
 
 import UserSchema from '../schemas/User';
@@ -16,6 +17,7 @@ class UsersController {
     const { name, groups } = request.body;
 
     const user = await User.create({
+      _id: uuidv4(),
       name,
       groups,
     });

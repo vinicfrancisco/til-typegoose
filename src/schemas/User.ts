@@ -1,12 +1,29 @@
-import { arrayProp, prop, Ref } from '@typegoose/typegoose';
+import { prop, Ref, modelOptions } from '@typegoose/typegoose';
+import { Base } from '@typegoose/typegoose/lib/defaultClasses';
 
 import Group from './Group';
 
-class User {
+@modelOptions({
+  schemaOptions: {
+    _id: false,
+    toJSON: {
+      transform(doc, ret) {
+        ret.id = ret._id;
+
+        delete ret._id;
+        delete ret.__v;
+      },
+    },
+  },
+})
+class User extends Base<string> {
+  @prop()
+  public _id: string;
+
   @prop()
   public name: string;
 
-  @arrayProp({ ref: Group })
+  @prop({ ref: Group, refType: String })
   public groups: Ref<Group>[];
 }
 
